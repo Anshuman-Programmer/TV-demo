@@ -8,7 +8,8 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdo
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const originalRows = [
     { firstName: "Anshuman", lastName: 'Talukdar', email: "anshumantalukdar02@gmail.com", fav: false },
@@ -65,6 +66,16 @@ export default function Dashbourd() {
             }
         });
         setRows(favAddedRows);
+        toast.success(`${e.email} added To Favorite`, {
+            position: "bottom-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     }
 
     const removeFavorite = (e) => {
@@ -77,6 +88,16 @@ export default function Dashbourd() {
             }
         });
         setRows(favRemoveRows);
+        toast.success(`${e.email} removed To Favorite`, {
+            position: "bottom-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     }
 
     const deleteContact = (e) => {
@@ -87,6 +108,16 @@ export default function Dashbourd() {
             }
         }
         setRows(deleteContactRows);
+        toast.error(`${e.email} deleted successfully`, {
+            position: "bottom-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     }
 
     const editContact = (e, i) => {
@@ -104,17 +135,50 @@ export default function Dashbourd() {
         console.log(deleteContactRows)
         setRows(deleteContactRows);
         setEditModal(false)
+        toast.success("Contact edited", {
+            position: "bottom-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     }
     const addNewContact = () => {
-        const addNewContactRows = [...rows]
-        addNewContactRows.push(newContactValues)
-        setRows(addNewContactRows);
-        setNewContactModal(false)
-        setNewContactValues({
-            firstName: '',
-            lastName: '',
-            email: '',
-        })
+        if (!newContactValues.email || !newContactValues.firstName || !newContactValues.lastName) {
+            toast.error('Please add all the details', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        } else {
+            const addNewContactRows = [...rows]
+            addNewContactRows.push(newContactValues)
+            setRows(addNewContactRows);
+            setNewContactModal(false)
+            setNewContactValues({
+                firstName: '',
+                lastName: '',
+                email: '',
+            })
+            toast.success('New Contact Added', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
     }
     return (
         <Box sx={{ background: "whitesmoke", minHeight: "100vh" }} width={"100%"} paddedTop={"5rem"} display={"flex"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"}>
@@ -257,6 +321,18 @@ export default function Dashbourd() {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <ToastContainer
+                position="bottom-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </Box>
 
     );
